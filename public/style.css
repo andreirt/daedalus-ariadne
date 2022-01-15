@@ -1,3 +1,17 @@
 body {
-  background-color: lightblue;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+}
+
+body.inverted {
+  background-color: black;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
