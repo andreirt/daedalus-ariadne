@@ -1,7 +1,9 @@
 class Ariadne
 {
-  constructor(maze, edge, canvas, wallColor, bgColor) {
+  constructor(maze, left, top, edge, canvas, wallColor, bgColor) {
     this.maze = maze;
+    this.left = left;
+    this.top = top;
     this.edge = edge;
     this.startMaze = 0;
     this.endMaze = 0;
@@ -92,7 +94,7 @@ class Ariadne
   paintCell(x, y, cellColor )
   {
     this.context.fillStyle = cellColor;
-    this.context.fillRect( (((this.maze.width * 2) + 1) + x) * this.edge, y * this.edge, this.edge, this.edge);
+    this.context.fillRect( (x * this.edge) + this.left, (y * this.edge) + this.top, this.edge, this.edge);
   }
 }
 

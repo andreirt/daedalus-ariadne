@@ -1,7 +1,9 @@
 class Daedalus
 {
-    constructor(maze, edge, canvas, wallColor, bgColor) {
+    constructor(maze, x, y, edge, canvas, wallColor, bgColor) {
         this.maze = maze;
+        this.x = x;
+        this.y = y;
         this.edge = edge;
         this.step = 1;
         this.finished = false
@@ -62,7 +64,7 @@ class Daedalus
     paintCell( x, y, cellColor )
     {
         this.context.fillStyle = cellColor;
-        this.context.fillRect(x * this.edge, y * this.edge, this.edge, this.edge);
+        this.context.fillRect((x * this.edge) + this.x, (y * this.edge) + this.y, this.edge, this.edge);
     }
 }
 

@@ -23,16 +23,28 @@
 import Maze from './maze';
 import Daedalus from './daedalus';
 import Ariadne from './ariadne';
+import Color from 'color';
 
-let WALL = '#000000';
 let BACKGROUND = '#ffffff';
+let wallColor = Color.hsl([Math.floor(fxrand() * 255), 100, 50]);
+let blackAndWhite = fxrand();
 
-if (fxrand() < 0.5) {
-  WALL = '#FFFFFF';
-  BACKGROUND = '#000000';
-  const body = document.querySelector('body');
-  body.classList.add('inverted');
+if (blackAndWhite < 0.05) {
+  wallColor = Color('black');
 }
+else if (blackAndWhite < 0.01) {
+  wallColor = Color('white');
+}
+
+if (wallColor.luminosity() >= 0.5) {
+  BACKGROUND ="#000000";
+  document.body.style.backgroundColor = BACKGROUND;
+}
+
+
+let WALL = wallColor.hex();
+console.log(BACKGROUND, WALL);
+
 
 let maze;
 let daedalus;
@@ -45,17 +57,21 @@ let then = Date.now();
 
 function setup() {
 
-  let edges = [2, 4, 6, 8, 10, 12, 14, 16];
+  let edges = [2, 4, 6, 8, 10];
   let EDGE = edges[ Math.floor(fxrand() * edges.length) ];
+  let mazeWidth =  Math.floor( (window.innerWidth - (EDGE * 2)) / ( 4 * EDGE) / 2 ) * 2;
+  let mazeHeight = Math.floor( (window.innerHeight - (EDGE * 2)) / (2 * EDGE) / 2 ) * 2 ;
+  let mazeX = Math.floor((window.innerWidth / 4) - (mazeWidth * EDGE));
+  let mazeY = Math.floor((window.innerHeight / 2) - (mazeHeight * EDGE));
 
-  maze = new Maze( (Math.floor( (window.innerWidth / ( 4 * EDGE)) / 2 ) * 2 ), Math.floor( (window.innerHeight/(2*EDGE)) / 2 ) * 2);
+  maze = new Maze(mazeWidth, mazeHeight);
   maze.generate();  
   
   let canvas = document.getElementById('canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  daedalus = new Daedalus(maze, EDGE, canvas, WALL, BACKGROUND);
-  ariadne = new Ariadne(maze, EDGE, canvas, WALL, BACKGROUND);
+  daedalus = new Daedalus(maze, mazeX, mazeY, EDGE, canvas, WALL, BACKGROUND);
+  ariadne = new Ariadne(maze, mazeX + (mazeWidth * EDGE * 2), mazeY, EDGE, canvas, WALL, BACKGROUND);
   ariadne.start();
   
   for (let i =0; i < maze.height; i++) {
